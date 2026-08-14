@@ -5,7 +5,9 @@
 
 ## Windows（现在就做）
 
-**不要在 `C:\Windows\System32` 里跑这些命令。** 仓库要先 clone 到用户目录。PowerShell 步骤见 [WINDOWS_POWERSHELL.md](WINDOWS_POWERSHELL.md)。
+**不要在 `C:\Windows\System32` 里跑这些命令。**  
+你现在这种环境请改走 **WSL Ubuntu 里装 Linux 版 Isaac Lab**：见 [wsl/README.md](wsl/README.md)。  
+原生 PowerShell/bat 步骤见 [WINDOWS_POWERSHELL.md](WINDOWS_POWERSHELL.md)。
 
 1. 安装 [Isaac Lab 2.3.2](https://isaac-sim.github.io/IsaacLab/v2.3.2/source/setup/installation/index.html) + Isaac Sim 5.1（Win11，钉死 commit `c22775241e28f465fe345fa1a482ad6d29d712b0`）。  
 2. 开启长路径；显存 16GB 把 `NUM_ENVS` 设为 1024。  
