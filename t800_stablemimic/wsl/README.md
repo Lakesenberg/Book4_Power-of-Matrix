@@ -41,19 +41,17 @@ sed -i 's/\r$//' ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/*.sh
 sed -i 's/\r$//' ~/Book4_Power-of-Matrix/t800_stablemimic/linux/*.sh
 ```
 
-`apt` 报 `Release file is not valid yet (... 4h ...)` 是 WSL 时钟慢了，**先不要死磕 update**。可二选一：
+`apt` 报 `Release file is not valid yet` 是 WSL 时钟慢了。`hwclock` 在许多 WSL 里不存在，不必装。安装脚本已改为跳过 Release 日期。
 
-```bash
-sudo hwclock -s
+你也可以在 **Windows PowerShell**（先 `Set-Location $HOME`）执行一次：
+
+```powershell
+wsl --shutdown
 ```
 
-或暂时跳过日期检查：
+再重新打开 Ubuntu，时钟常会对齐。
 
-```bash
-sudo apt-get -o Acquire::Check-Date=false update
-```
-
-然后继续 `01_clone.sh`。`(base)` 是 conda，先不管；装 Isaac 时用脚本里的 `~/env_isaaclab`，不要用 conda base。
+`(base)` 是 conda。Ubuntu Resolute 往往没有 `python3.11` 软件包，脚本会改用 `conda create -n isaaclab python=3.11`。不要用 conda base 装 Isaac。
 
 ## 1. 克隆本仓库和官方 lab
 
