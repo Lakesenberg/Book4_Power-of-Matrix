@@ -53,9 +53,14 @@ else
 fi
 
 python -m pip install -U pip
+export PIP_DEFAULT_TIMEOUT=180
+export PIP_RETRIES=10
 
 echo "[INFO] 安装 Isaac Sim 5.1（很大，请保持网络稳定）"
-pip install "isaacsim[all,extscache]==5.1.0" --extra-index-url https://pypi.nvidia.com
+echo "[INFO] 若出现 Connection interrupted / SSL EOF，先等 pip 自己续传，不要 Ctrl+C"
+pip install --retries 10 --timeout 180 \
+  "isaacsim[all,extscache]==5.1.0" \
+  --extra-index-url https://pypi.nvidia.com
 
 if [[ ! -d "$ISAACLAB_DIR/.git" ]]; then
   git clone https://github.com/isaac-sim/IsaacLab.git "$ISAACLAB_DIR"
