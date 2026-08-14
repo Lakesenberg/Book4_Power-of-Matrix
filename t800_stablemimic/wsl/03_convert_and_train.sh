@@ -30,6 +30,9 @@ activate_isaac() {
 activate_isaac
 echo "[INFO] Python: $(command -v python)  $(python --version)"
 
+python "$KIT/wsl/patch_usd_abspath.py" --lab-root "$LAB"
+python -c "import wandb" 2>/dev/null || python -m pip install -U wandb
+
 if [[ ! -f "$LAB/datasets/tracking/t800/dance_t800.csv" ]]; then
   echo "[错误] 找不到 dance_t800.csv，先跑 01_clone.sh"
   exit 1
@@ -39,6 +42,10 @@ cd "$LAB"
 echo "[INFO] csv → npz"
 python scripts/csv_to_npz.py --robot t800 --input_fps 30 --headless \
   -f datasets/tracking/t800/dance_t800.csv
+if [[ ! -f "$LAB/datasets/tracking/t800/dance_t800.npz" ]]; then
+  echo "[错误] 未生成 dance_t800.npz，不要继续训练。先跑: bash $KIT/wsl/fix_runtime.sh"
+  exit 1
+fi
 
 echo "[INFO] 开始 tracking: Tracking-Flat-T800-Wo-State-Estimation-v0"
 echo "      num_envs=$NUM_ENVS  （显存不够: NUM_ENVS=1024 bash $0）"
