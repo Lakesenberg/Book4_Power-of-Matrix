@@ -32,6 +32,29 @@ nvidia-smi
 
 这里必须能看到显卡。没有的话先更新 **Windows 上的** NVIDIA 驱动并重启，不要在 WSL 里装 Windows 显卡驱动。
 
+## 0.5 若 `set: pipefail` / Release file is not valid yet
+
+脚本报 `set: pipefail` 是 Windows 换行（CRLF）。仓库已改成 LF。你**现在这台**先修本地文件，不必等 pull：
+
+```bash
+sed -i 's/\r$//' ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/*.sh
+sed -i 's/\r$//' ~/Book4_Power-of-Matrix/t800_stablemimic/linux/*.sh
+```
+
+`apt` 报 `Release file is not valid yet (... 4h ...)` 是 WSL 时钟慢了，**先不要死磕 update**。可二选一：
+
+```bash
+sudo hwclock -s
+```
+
+或暂时跳过日期检查：
+
+```bash
+sudo apt-get -o Acquire::Check-Date=false update
+```
+
+然后继续 `01_clone.sh`。`(base)` 是 conda，先不管；装 Isaac 时用脚本里的 `~/env_isaaclab`，不要用 conda base。
+
 ## 1. 克隆本仓库和官方 lab
 
 ```bash
