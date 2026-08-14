@@ -1,0 +1,54 @@
+# T800 / StableMimic 分阶段训练
+# Windows 只跑 WIN_* ；打好包后到 Linux 跑 LIN_*
+
+task: Tracking-Flat-T800-Wo-State-Estimation-v0
+motion_csv: datasets/tracking/t800/dance_t800.csv
+motion_npz: datasets/tracking/t800/dance_t800.npz
+experiment_name: tracking_t800
+
+windows:
+  WIN0_CONVERT:
+    where: windows
+    needs_isaac: true
+    description: csv → npz（官方 csv_to_npz，需要 Isaac Sim）
+  WIN1_TRACKING:
+    where: windows
+    needs_isaac: true
+    description: 官方 whole-body tracking，单卡 headless
+    num_envs_default: 2048
+    max_iterations: 20000
+    save_interval: 2000
+    resume: false
+  WIN2_MORE_ITERS:
+    where: windows
+    needs_isaac: true
+    description: 若 WIN1 未收敛，同任务续训（可选）
+    resume: true
+    extra_iterations: 10000
+
+linux:
+  LIN1_RESUME_OR_SCALE:
+    where: linux
+    description: 把 Windows checkpoint 放到同名 logs 后，可升到 4096 并行继续 tracking
+    resume: true
+  LIN2_STABLEMIMIC_LITE:
+    where: linux
+    description: 单 MLP + get-up 扰动 reset + 隐式后继奖励（需 getup npz）
+    init_from: WIN1 或 LIN1 的 model_*.pt
+  LIN3_MOE_TWIST:
+    where: linux
+    description: 双专家 MoE + 侧卧/交叉扭曲课程
+    init_from: LIN2 的 model_*.pt
+  LIN4_DEPLOY:
+    where: linux
+    description: play 导出 ONNX/MNN，native_sdk Sim2Sim / 真机
+
+handoff_must_copy:
+  - logs/rsl_rl/tracking_t800/<run>/model_*.pt
+  - logs/rsl_rl/tracking_t800/<run>/params/env.yaml
+  - logs/rsl_rl/tracking_t800/<run>/params/agent.yaml
+  - logs/rsl_rl/tracking_t800/<run>/params/env.pkl
+  - logs/rsl_rl/tracking_t800/<run>/params/agent.pkl
+  - datasets/tracking/t800/dance_t800.npz
+  - datasets/tracking/t800/dance_t800.csv
+  - handoff/manifest.json

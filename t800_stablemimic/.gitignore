@@ -1,0 +1,5 @@
+vendor/
+handoff_windows_to_linux/
+windows/local_config.bat
+__pycache__/
+*.pyc
