@@ -24,6 +24,10 @@ mkdir -p "$KIT/vendor"
 if [[ ! -f "$LAB/scripts/tracking/train.py" ]]; then
   git clone --depth 1 https://github.com/engineai-robotics/engineai_rl_lab.git "$LAB"
 fi
+# USD 在 Git LFS 里；浅克隆默认只有指针
+if [[ -x "$KIT/wsl/fetch_usd_lfs.sh" ]]; then
+  bash "$KIT/wsl/fetch_usd_lfs.sh" "$LAB" || true
+fi
 
 echo "[OK] 仓库: $KIT"
 echo "[OK] 官方 lab: $LAB"
