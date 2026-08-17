@@ -30,6 +30,12 @@ activate_isaac() {
 activate_isaac
 echo "[INFO] Python: $(command -v python)  $(python --version)"
 
+if pgrep -f 'scripts/getup/train.py' >/dev/null; then
+  echo "[INFO] 发现旧的 getup train.py，先停掉，避免两个 Isaac 抢 PhysX"
+  pkill -f 'scripts/getup/train.py' || true
+  sleep 3
+fi
+
 python "$KIT/getup/apply_getup_overlay.py" --lab-root "$LAB"
 python "$KIT/wsl/patch_usd_abspath.py" --lab-root "$LAB"
 if head -n 1 "$LAB/source/engineai_rl_lab/engineai_rl_lab/assets/t800/serial_t800.usd" 2>/dev/null | grep -q git-lfs; then
