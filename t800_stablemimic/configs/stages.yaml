@@ -26,19 +26,32 @@ windows:
     resume: true
     extra_iterations: 10000
 
+getup:
+  GETUP1_TWISTED:
+    where: wsl_or_linux
+    needs_isaac: true
+    task: Getup-Twisted-T800-v0
+    experiment_name: getup_t800
+    description: 静态扭曲躺姿课程起身，不跟舞、不推倒
+    num_envs_default: 256
+    max_iterations: 15000
+    save_interval: 1000
+    resume: false
+    motion_file: null
+
 linux:
   LIN1_RESUME_OR_SCALE:
     where: linux
     description: 把 Windows checkpoint 放到同名 logs 后，可升到 4096 并行继续 tracking
     resume: true
-  LIN2_STABLEMIMIC_LITE:
+  LIN2_GETUP_TWISTED:
     where: linux
-    description: 单 MLP + get-up 扰动 reset + 隐式后继奖励（需 getup npz）
-    init_from: WIN1 或 LIN1 的 model_*.pt
-  LIN3_MOE_TWIST:
+    description: 与 GETUP1 相同，原生 Linux 可把 num_envs 升到 2048/4096
+    task: Getup-Twisted-T800-v0
+  LIN3_STABLEMIMIC_OPTIONAL:
     where: linux
-    description: 双专家 MoE + 侧卧/交叉扭曲课程
-    init_from: LIN2 的 model_*.pt
+    description: 可选。只有还要「跳舞+被推+再跳」时才做 MoE / 隐式后继奖励
+    init_from: WIN1 tracking + GETUP1 get-up
   LIN4_DEPLOY:
     where: linux
     description: play 导出 ONNX/MNN，native_sdk Sim2Sim / 真机

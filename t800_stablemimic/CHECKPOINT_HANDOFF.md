@@ -45,8 +45,8 @@ ONNX / MNN 可选。Windows 若没跑 `play.py` 导出，到 Linux 再导即可�
      --load_run <manifest.run_name> \
      --checkpoint <manifest.checkpoint_name>
    ```
-2. **LIN2**：`model_*.pt` 初始化 **StableMimic Lite**（get-up 扰动 + 隐式后继奖励）。需要另备 `getup_*.npz`。  
-3. **LIN3**：再从 LIN2 的 pt 上 MoE + 侧卧/交叉扭曲。  
+2. **GETUP1 / LIN2**：新任务 `Getup-Twisted-T800-v0`（静态扭曲躺姿课程，尽快站稳）。**不要**拿 tracking 的 pt `--resume`，观测维不同。  
+3. **LIN3**（可选）：只有还要「跳舞 + 被推 + 再跳」时才做 MoE。  
 4. **LIN4**：`play.py` 导出，进 `native_sdk`。
 
 观测/动作维必须和 Windows tracking 一致，否则 `load` 会因 shape 对不上失败。不要换 `Tracking-Flat-T800-Wo-State-Estimation-v0` 的 policy 项顺序。

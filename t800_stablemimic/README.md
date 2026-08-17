@@ -48,4 +48,12 @@ cd engineai_rl_lab
 ../t800_stablemimic/linux/02_train_stablemimic_lite.sh
 ```
 
-官方仓库目前只有 tracking 任务。LIN2/LIN3 要等 `Tracking-StableMimic-T800-v0` 合入；**Windows 这份 `model_*.pt` 就是初始化权重，先训起来不必等。**
+官方仓库目前只有 tracking 任务。跟舞跑完后，下一阶段是 **静态扭曲起身**（不跟舞、不推倒）：
+
+```bash
+conda activate isaaclab
+NUM_ENVS=256 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
+```
+
+任务名 `Getup-Twisted-T800-v0`，说明见 [getup/README.md](getup/README.md)。  
+可选的「跳舞被推再跳」StableMimic / MoE 以后再说，不是起身所必需。

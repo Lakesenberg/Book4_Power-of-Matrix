@@ -83,7 +83,16 @@ NUM_ENVS=1024 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/03_convert_and_t
 
 `~/Book4_Power-of-Matrix/t800_stablemimic/vendor/engineai_rl_lab/logs/rsl_rl/tracking_t800/`
 
-## 4. 打包给后续 Linux / 本机续训
+## 4. 静态扭曲起身（跟舞跑完后）
+
+```bash
+conda activate isaaclab
+NUM_ENVS=256 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
+```
+
+不转 csv、不用 `dance_t800.npz`。日志在 `logs/rsl_rl/getup_t800/`。详见 [../getup/README.md](../getup/README.md)。
+
+## 5. 打包给后续 Linux / 本机续训
 
 ```bash
 source ~/env_isaaclab/bin/activate
