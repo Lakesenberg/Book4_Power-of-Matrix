@@ -93,7 +93,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "supine": {
         "label": "A_supine",
-        "root_z": 0.20,
+        "root_z": 0.34,
         "root_z_noise": 0.03,
         "roll": 0.0,
         "pitch": 1.42,
@@ -113,7 +113,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "side_left": {
         "label": "C_side_left",
-        "root_z": 0.19,
+        "root_z": 0.32,
         "root_z_noise": 0.03,
         "roll": 1.40,
         "pitch": 0.10,
@@ -134,7 +134,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "side_right": {
         "label": "C_side_right",
-        "root_z": 0.19,
+        "root_z": 0.32,
         "root_z_noise": 0.03,
         "roll": -1.40,
         "pitch": 0.10,
@@ -155,7 +155,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "prone": {
         "label": "B_prone",
-        "root_z": 0.20,
+        "root_z": 0.34,
         "root_z_noise": 0.03,
         "roll": 0.0,
         "pitch": -1.42,
@@ -175,7 +175,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "cross": {
         "label": "D_cross_twist",
-        "root_z": 0.21,
+        "root_z": 0.34,
         "root_z_noise": 0.03,
         "roll": 0.25,
         "pitch": 1.28,
@@ -196,7 +196,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "mid_contact": {
         "label": "E_mid_contact",
-        "root_z": 0.18,
+        "root_z": 0.32,
         "root_z_noise": 0.025,
         "roll": 0.55,
         "pitch": 1.15,
@@ -272,7 +272,7 @@ def validate_catalog() -> list[str]:
         for joint in spec["joints"]:
             if joint not in known:
                 errors.append(f"{fam}: unknown joint {joint}")
-        if spec["root_z"] < 0.12:
+        if spec["root_z"] < 0.28:
             errors.append(f"{fam}: root_z too low ({spec['root_z']})")
     for i, weights in enumerate(STAGE_WEIGHTS):
         for name in weights:

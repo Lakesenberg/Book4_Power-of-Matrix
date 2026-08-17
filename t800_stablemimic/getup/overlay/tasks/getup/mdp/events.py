@@ -96,7 +96,7 @@ def reset_to_static_twisted_pose(
         n = int(mask.sum().item())
         e_noise = spec["euler_noise"]
         height = spec["root_z"] + (torch.rand(n, device=asset.device) * 2 - 1) * spec["root_z_noise"]
-        height = torch.clamp(height, min=0.14, max=0.85)
+        height = torch.clamp(height, min=0.28, max=0.85)
         roll = spec["roll"] + (torch.rand(n, device=asset.device) * 2 - 1) * e_noise
         pitch = spec["pitch"] + (torch.rand(n, device=asset.device) * 2 - 1) * e_noise
         yaw = torch.empty(n, device=asset.device).uniform_(yaw_range[0], yaw_range[1])

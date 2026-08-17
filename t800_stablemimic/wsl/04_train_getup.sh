@@ -5,7 +5,7 @@ set -euo pipefail
 VENV="${ISAAC_VENV:-$HOME/env_isaaclab}"
 KIT="$HOME/Book4_Power-of-Matrix/t800_stablemimic"
 LAB="$KIT/vendor/engineai_rl_lab"
-NUM_ENVS="${NUM_ENVS:-256}"
+NUM_ENVS="${NUM_ENVS:-64}"
 
 activate_isaac() {
   if [[ -n "${CONDA_PREFIX:-}" && "$(basename "$CONDA_PREFIX")" == "isaaclab" ]]; then
@@ -39,7 +39,7 @@ fi
 
 cd "$LAB"
 echo "[INFO] 开始静态扭曲起身: Getup-Twisted-T800-v0"
-echo "      num_envs=$NUM_ENVS  （PhysX 掉 CPU 时不要加到 2048）"
+echo "      num_envs=$NUM_ENVS  （PhysX 掉 CPU 时用 64；通了再试 128）"
 echo "      不使用 dance_t800.npz，不从 tracking 热启动（观测不同）"
 python scripts/getup/train.py \
   --task Getup-Twisted-T800-v0 \

@@ -87,7 +87,7 @@ NUM_ENVS=1024 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/03_convert_and_t
 
 ```bash
 conda activate isaaclab
-NUM_ENVS=256 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
+NUM_ENVS=64 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
 ```
 
 不转 csv、不用 `dance_t800.npz`。日志在 `logs/rsl_rl/getup_t800/`。详见 [../getup/README.md](../getup/README.md)。

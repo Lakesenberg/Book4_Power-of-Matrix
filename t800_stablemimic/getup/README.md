@@ -25,8 +25,8 @@
 
 ```bash
 conda activate isaaclab
-# PhysX 若仍掉 CPU，保持 256
-NUM_ENVS=256 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
+# PhysX 若仍掉 CPU，先用 64，通了再 128
+NUM_ENVS=64 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
 ```
 
 日志：`vendor/engineai_rl_lab/logs/rsl_rl/getup_t800/`
