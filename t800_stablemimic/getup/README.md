@@ -10,7 +10,7 @@
 
 | 阶段 | 采样 | 目的 |
 |------|------|------|
-| 0 | 坐靠 + 仰卧 | 先学会快站起来 |
+| 0 | 只坐靠（半空落下） | 先打通训练，避免穿地卡死 |
 | 1 | 仰卧 | 打牢仰躺起身 |
 | 2 | 仰卧 + 左/右侧卧 | 再加侧身 |
 | 3 | 再加俯卧 | 俯仰分开，避免一开始互扰 |
@@ -25,8 +25,10 @@
 
 ```bash
 conda activate isaaclab
-# PhysX 若仍掉 CPU，先用 64，通了再 128
-NUM_ENVS=64 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
+# 先冒烟：16 环境、3 轮，确认出现 Learning iteration
+bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/06_smoke_getup.sh
+# 通了再正式训
+NUM_ENVS=32 bash ~/Book4_Power-of-Matrix/t800_stablemimic/wsl/04_train_getup.sh
 ```
 
 日志：`vendor/engineai_rl_lab/logs/rsl_rl/getup_t800/`
