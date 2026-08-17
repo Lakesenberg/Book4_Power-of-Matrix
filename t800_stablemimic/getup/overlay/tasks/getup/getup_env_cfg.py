@@ -149,6 +149,4 @@ class GetupEnvCfg(ManagerBasedRLEnvCfg):
         self.viewer.eye = (2.0, 2.0, 1.2)
         self.viewer.origin_type = "asset_root"
         self.viewer.asset_name = "robot"
-        # Contact sensors are not required for get-up rewards and add PhysX work
-        # during sim.reset() on CPU fallback.
-        self.scene.contact_forces = None
+        self.scene.contact_forces.debug_vis = False
