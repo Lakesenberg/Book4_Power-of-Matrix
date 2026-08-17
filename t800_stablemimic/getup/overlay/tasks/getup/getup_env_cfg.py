@@ -113,11 +113,6 @@ class RewardsCfg:
         params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*"])},
     )
     fly = RewTerm(func=mdp.fly_height, weight=-2.0, params={"max_height": 1.45})
-    head_hit = RewTerm(
-        func=mdp.head_contact,
-        weight=-0.4,
-        params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=[".*HEAD.*"])},
-    )
 
 
 @configclass

@@ -96,7 +96,9 @@ def reset_to_static_twisted_pose(
         n = int(mask.sum().item())
         e_noise = spec["euler_noise"]
         height = spec["root_z"] + (torch.rand(n, device=asset.device) * 2 - 1) * spec["root_z_noise"]
-        height = torch.clamp(height, min=0.28, max=0.85)
+        # Drop from above the ground. Embedding a 1m-tall pitched body at z=0.3
+        # makes CPU PhysX hang on the first contact-resolution step.
+        height = torch.clamp(height, min=0.55, max=0.90)
         roll = spec["roll"] + (torch.rand(n, device=asset.device) * 2 - 1) * e_noise
         pitch = spec["pitch"] + (torch.rand(n, device=asset.device) * 2 - 1) * e_noise
         yaw = torch.empty(n, device=asset.device).uniform_(yaw_range[0], yaw_range[1])
@@ -123,3 +125,10 @@ def reset_to_static_twisted_pose(
     asset.write_root_pose_to_sim(root[:, :7], env_ids)
     asset.write_root_velocity_to_sim(torch.zeros(env_ids.numel(), 6, device=asset.device), env_ids)
     asset.write_joint_state_to_sim(joint_pos, joint_vel, None, env_ids)
+    if not getattr(env, "_getup_reset_logged", False):
+        env._getup_reset_logged = True
+        print(
+            f"[getup] first reset: n={int(env_ids.numel())} stage={env.getup_stage} "
+            f"families={list(names)} (drop-in, not embedded)",
+            flush=True,
+        )

@@ -73,11 +73,11 @@ JOINT_CLAMP: dict[str, tuple[float, float]] = {
 FAMILIES: dict[str, dict[str, Any]] = {
     "sit": {
         "label": "sit_recline",
-        "root_z": 0.52,
-        "root_z_noise": 0.06,
+        "root_z": 0.72,
+        "root_z_noise": 0.04,
         "roll": 0.0,
-        "pitch": 0.75,
-        "euler_noise": 0.12,
+        "pitch": 0.50,
+        "euler_noise": 0.08,
         "joints": {
             "J00_HIP_PITCH_L": -0.85,
             "J06_HIP_PITCH_R": -0.85,
@@ -93,16 +93,16 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "supine": {
         "label": "A_supine",
-        "root_z": 0.34,
+        "root_z": 0.66,
         "root_z_noise": 0.03,
         "roll": 0.0,
         "pitch": 1.42,
-        "euler_noise": 0.18,
+        "euler_noise": 0.12,
         "joints": {
-            "J00_HIP_PITCH_L": -0.20,
-            "J06_HIP_PITCH_R": -0.18,
-            "J03_KNEE_PITCH_L": 0.45,
-            "J09_KNEE_PITCH_R": 0.40,
+            "J00_HIP_PITCH_L": -0.85,
+            "J06_HIP_PITCH_R": -0.85,
+            "J03_KNEE_PITCH_L": 1.35,
+            "J09_KNEE_PITCH_R": 1.35,
             "J14_SHOULDER_ROLL_L": 0.45,
             "J19_SHOULDER_ROLL_R": -0.45,
             "J13_SHOULDER_PITCH_L": 0.15,
@@ -113,7 +113,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "side_left": {
         "label": "C_side_left",
-        "root_z": 0.32,
+        "root_z": 0.66,
         "root_z_noise": 0.03,
         "roll": 1.40,
         "pitch": 0.10,
@@ -134,7 +134,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "side_right": {
         "label": "C_side_right",
-        "root_z": 0.32,
+        "root_z": 0.66,
         "root_z_noise": 0.03,
         "roll": -1.40,
         "pitch": 0.10,
@@ -155,7 +155,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "prone": {
         "label": "B_prone",
-        "root_z": 0.34,
+        "root_z": 0.66,
         "root_z_noise": 0.03,
         "roll": 0.0,
         "pitch": -1.42,
@@ -175,7 +175,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "cross": {
         "label": "D_cross_twist",
-        "root_z": 0.34,
+        "root_z": 0.66,
         "root_z_noise": 0.03,
         "roll": 0.25,
         "pitch": 1.28,
@@ -196,7 +196,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
     },
     "mid_contact": {
         "label": "E_mid_contact",
-        "root_z": 0.32,
+        "root_z": 0.66,
         "root_z_noise": 0.025,
         "roll": 0.55,
         "pitch": 1.15,
@@ -218,7 +218,7 @@ FAMILIES: dict[str, dict[str, Any]] = {
 # HoST-style: do not mix supine+prone on day one.
 # 0 sit+supine → 1 supine → 2 +side → 3 +prone → 4 +cross → 5 +mid-contact
 STAGE_WEIGHTS: tuple[dict[str, float], ...] = (
-    {"sit": 0.55, "supine": 0.45},
+    {"sit": 1.0},
     {"supine": 1.0},
     {"supine": 0.40, "side_left": 0.30, "side_right": 0.30},
     {"supine": 0.25, "side_left": 0.20, "side_right": 0.20, "prone": 0.35},
@@ -272,7 +272,7 @@ def validate_catalog() -> list[str]:
         for joint in spec["joints"]:
             if joint not in known:
                 errors.append(f"{fam}: unknown joint {joint}")
-        if spec["root_z"] < 0.28:
+        if spec["root_z"] < 0.50:
             errors.append(f"{fam}: root_z too low ({spec['root_z']})")
     for i, weights in enumerate(STAGE_WEIGHTS):
         for name in weights:

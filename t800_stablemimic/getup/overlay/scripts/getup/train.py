@@ -87,8 +87,16 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     if agent_cfg.run_name:
         log_dir += f"_{agent_cfg.run_name}"
     log_dir = os.path.join(log_root_path, log_dir)
+    os.makedirs(log_dir, exist_ok=True)
+    boot = os.path.join(log_dir, "bootstrapping.txt")
+    with open(boot, "w", encoding="utf-8") as f:
+        f.write("creating_env\n")
+    print(f"[INFO] Creating env, heartbeat: {boot}", flush=True)
 
     env = gym.make(args_cli.task, cfg=env_cfg, render_mode="rgb_array" if args_cli.video else None)
+    with open(boot, "a", encoding="utf-8") as f:
+        f.write("env_created\n")
+    print("[INFO] Env created, wrapping runner", flush=True)
     if args_cli.video:
         video_kwargs = {
             "video_folder": os.path.join(log_dir, "videos", "train"),
