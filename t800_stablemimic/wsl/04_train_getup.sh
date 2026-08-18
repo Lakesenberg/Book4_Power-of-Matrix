@@ -30,10 +30,16 @@ activate_isaac() {
 activate_isaac
 echo "[INFO] Python: $(command -v python)  $(python --version)"
 
-if pgrep -f 'scripts/getup/train.py' >/dev/null; then
-  echo "[INFO] 发现旧的 getup train.py，先停掉，避免两个 Isaac 抢 PhysX"
-  pkill -f 'scripts/getup/train.py' || true
+if pgrep -f 'scripts/.*/train.py' >/dev/null; then
+  echo "[INFO] 发现旧的 train.py，先停掉，避免两个 Isaac 抢 PhysX"
+  pkill -9 -f 'scripts/getup/train.py' || true
+  pkill -9 -f 'scripts/tracking/train.py' || true
   sleep 3
+fi
+if pgrep -f 'scripts/.*/train.py' >/dev/null; then
+  echo "[错误] 仍有训练进程，先: bash $KIT/wsl/00_kill_getup.sh"
+  pgrep -af 'scripts/.*/train.py'
+  exit 1
 fi
 
 python "$KIT/getup/apply_getup_overlay.py" --lab-root "$LAB"
